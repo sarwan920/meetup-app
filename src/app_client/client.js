@@ -11,8 +11,8 @@ const client = new ApolloClient({
 });
 
 export const GET_MEETUPS = gql`
-  query MyQuery {
-    meetups {
+  query get_meetups {
+    meetups(order_by:{ meetup_id:desc }) {
       meetup_id
       meetup_title
       meetup_image

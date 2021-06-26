@@ -16,9 +16,9 @@ function NewMeetupForm() {
   const addressInputRef = useRef();
   const descriptionInputRef = useRef();
 
-  const [addMeetup, { loading, error }] = useMutation(ADD_MEETUP);
+  const [addMeetup, { loading }] = useMutation(ADD_MEETUP);
 
-  function submitHandler(event) {
+  const submitHandler = (event) => {
     event.preventDefault();
 
     const enteredTitle = titleInputRef.current.value;
@@ -34,25 +34,22 @@ function NewMeetupForm() {
         description: enteredDescription,
       },
       refetchQueries: [{ query: GET_MEETUPS }],
-    });
-
-    document.getElementById("meetup-form").reset();
-
-    if (!loading && !error) {
+    }).then(() => {
+      document.getElementById("meetup-form").reset();
       toast({
         title: "Meetup Saved Successfully!",
         status: "success",
         duration: 5000,
         isClosable: true,
-        position:'bottom-right'
+        position: "bottom-right",
+        variant:"top-accent"
       });
-      return;
-    }
-  }
+    });
+  };
 
   return (
     <Card>
-      <form id="meetup-form" className={classes.form} onSubmit={submitHandler}>
+      <form id="meetup-form" className={classes.form}>
         <div className={classes.control}>
           <label htmlFor="title">Meetup Title</label>
           <input type="text" required id="title" ref={titleInputRef} />
@@ -79,11 +76,13 @@ function NewMeetupForm() {
         </div>
 
         <div className={classes.actions}>
-          <Button type="submit" isLoading={loading} colorScheme="blue">
+          <Button
+            onClick={submitHandler}
+            isLoading={loading}
+            colorScheme="blue"
+          >
             Add Meetup
           </Button>
-
-         
         </div>
       </form>
     </Card>
