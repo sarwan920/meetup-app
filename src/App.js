@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Switch } from "react-router-dom";
+
+import { ApolloProvider } from "@apollo/client";
+import client from "./app_client/client";
+
+import AllMeetupsPage from "./pages/AllMeetups";
+// import FavoritesPage from "./pages/Favorites";
+import NewMeetupsPage from "./pages/NewMeetup";
+
+import Layout from "./components/layout/Layout";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={ client }>
+      <Layout>
+        <Switch>
+          <Route path="/" exact>
+            <AllMeetupsPage></AllMeetupsPage>
+          </Route>
+
+          <Route path="/new-meetup">
+            <NewMeetupsPage></NewMeetupsPage>
+          </Route>
+
+          {/* <Route path="/favorites">
+            <FavoritesPage></FavoritesPage>
+          </Route> */}
+        </Switch>
+      </Layout>
+    </ApolloProvider>
   );
 }
 
